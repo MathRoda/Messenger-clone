@@ -56,7 +56,8 @@ import io.getstream.chat.android.offline.model.connection.ConnectionState
 ) {
     Surface(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(top = 8.dp),
         elevation = elevation,
         color = color,
         shape = shape

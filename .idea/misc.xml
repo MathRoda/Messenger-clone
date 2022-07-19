@@ -8,6 +8,8 @@
         <entry key="..\:/Users/gtx/AndroidStudioProjects/MessengerClone/app/src/main/res/drawable/ic_camera.xml" value="0.1005" />
         <entry key="..\:/Users/gtx/AndroidStudioProjects/MessengerClone/app/src/main/res/drawable/ic_settings.xml" value="0.1" />
         <entry key="..\:/Users/gtx/AndroidStudioProjects/MessengerClone/app/src/main/res/drawable/ic_stream.xml" value="0.1" />
+        <entry key="..\:/Users/gtx/AndroidStudioProjects/MessengerClone/app/src/main/res/drawable/stream_compose_empty_channels.xml" value="0.1" />
+        <entry key="..\:/Users/gtx/AndroidStudioProjects/MessengerClone/app/src/main/res/drawable/stream_compose_empty_search_results.xml" value="0.2335" />
       </map>
     </option>
   </component>

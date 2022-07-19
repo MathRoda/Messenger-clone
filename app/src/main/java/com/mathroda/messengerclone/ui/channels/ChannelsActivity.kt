@@ -12,10 +12,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.MessengerApp
@@ -24,7 +26,9 @@ import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import com.mathroda.messengerclone.ui.MessagesActivity
 import com.mathroda.messengerclone.ui.channels.components.MessengerCloneListHeader
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneSearchInput
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
+import com.mathroda.messengerclone.ui.theme.BubbleGray
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.FilterObject
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
@@ -114,7 +118,8 @@ class ChannelsActivity: BaseConnectedActivity() {
                             onAvatarClick = { onHeaderAvatarClick() },
                             currentUser = user,
                             title = title,
-                            connectionState = connectionState
+                            connectionState = connectionState,
+                            elevation = 0.dp
                         )
                     }
                 }
@@ -123,10 +128,10 @@ class ChannelsActivity: BaseConnectedActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(color = ChatTheme.colors.appBackground)
+                        .background(color = ChatTheme.colors.barsBackground)
                 ) {
                     if (isShowingSearch) {
-                        SearchInput(
+                        MessengerCloneSearchInput(
                             modifier = Modifier
                                 .padding(horizontal = 12.dp, vertical = 8.dp)
                                 .fillMaxWidth(),
