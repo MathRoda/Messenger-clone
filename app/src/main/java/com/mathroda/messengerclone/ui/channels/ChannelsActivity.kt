@@ -9,15 +9,14 @@ import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.MessengerApp
@@ -25,26 +24,24 @@ import com.mathroda.messengerclone.MessengerHelper
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import com.mathroda.messengerclone.ui.MessagesActivity
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneChannelList
 import com.mathroda.messengerclone.ui.channels.components.MessengerCloneListHeader
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneScrollerChannel
 import com.mathroda.messengerclone.ui.channels.components.MessengerCloneSearchInput
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
-import com.mathroda.messengerclone.ui.theme.BubbleGray
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.FilterObject
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
 import io.getstream.chat.android.client.api.models.querysort.QuerySorter
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.compose.state.channels.list.*
-import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
-import io.getstream.chat.android.compose.ui.channels.header.ChannelListHeader
 import io.getstream.chat.android.compose.ui.channels.info.SelectedChannelMenu
-import io.getstream.chat.android.compose.ui.channels.list.ChannelList
-import io.getstream.chat.android.compose.ui.components.SearchInput
 import io.getstream.chat.android.compose.ui.components.SimpleDialog
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelViewModelFactory
 
+@ExperimentalFoundationApi
 class ChannelsActivity: BaseConnectedActivity() {
 
     private val factory by lazy {
@@ -97,6 +94,7 @@ class ChannelsActivity: BaseConnectedActivity() {
         val selectedChannel by listViewModel.selectedChannel
         val user by listViewModel.user.collectAsState()
         val connectionState by listViewModel.connectionState.collectAsState()
+        val channelState = listViewModel.channelsState
 
         BackHandler(enabled = true) {
             if (selectedChannel != null) {
@@ -144,9 +142,16 @@ class ChannelsActivity: BaseConnectedActivity() {
                         )
                     }
 
-                    ChannelList(
+                    MessengerCloneScrollerChannel(
+                        channelsState = channelState,
+                        currentUser = user,
+                        onChannelClick = onItemClick,
+                    )
+
+                    MessengerCloneChannelList(
                         modifier = Modifier.fillMaxSize(),
-                        viewModel = listViewModel,
+                        channelsState = channelState,
+                        currentUser = user,
                         onChannelClick = onItemClick,
                         onChannelLongClick = {
                             listViewModel.selectChannel(it)
