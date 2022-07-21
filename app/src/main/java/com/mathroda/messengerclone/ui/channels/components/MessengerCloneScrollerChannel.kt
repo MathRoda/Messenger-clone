@@ -28,13 +28,6 @@ fun MessengerCloneScrollerChannel(
     onLastItemReached: () -> Unit = {},
     onChannelClick: (Channel) -> Unit = {},
     loadingContent: () -> Unit = {},
-    emptyContent: @Composable () -> Unit = { DefaultChannelListEmptyContent(modifier) },
-    emptySearchContent: @Composable (String) -> Unit = { searchQuery ->
-        DefaultChannelSearchEmptyContent(
-            searchQuery = searchQuery,
-            modifier = modifier
-        )
-    },
     helperContent: @Composable BoxScope.() -> Unit = {},
     loadingMoreContent: @Composable () -> Unit = { DefaultChannelsLoadingMoreIndicator() },
     itemContent: @Composable (ChannelItemState) -> Unit = { channelItem ->
@@ -45,7 +38,7 @@ fun MessengerCloneScrollerChannel(
         )
     },
 ) {
-    val (isLoading, _, _, channels, searchQuery) = channelsState
+    val (isLoading, _, _, channels) = channelsState
 
     when {
          isLoading -> loadingContent()
@@ -59,8 +52,7 @@ fun MessengerCloneScrollerChannel(
             loadingMoreContent = loadingMoreContent,
             itemContent = itemContent,
         )
-        searchQuery.isNotEmpty() -> emptySearchContent(searchQuery)
-        else -> emptyContent()
+
     }
 }
 

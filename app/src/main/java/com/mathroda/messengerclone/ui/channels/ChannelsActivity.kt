@@ -24,10 +24,7 @@ import com.mathroda.messengerclone.MessengerHelper
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import com.mathroda.messengerclone.ui.MessagesActivity
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneChannelList
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneListHeader
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneScrollerChannel
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneSearchInput
+import com.mathroda.messengerclone.ui.channels.components.*
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.FilterObject
@@ -59,16 +56,24 @@ class ChannelsActivity: BaseConnectedActivity() {
 
         setContent {
             ChatTheme(dateFormatter = MessengerApp.dateFormatter) {
-                MessengerCloneChannelsScreen(
-                    isShowingHeader = true,
-                    isShowingSearch = true,
-                    onItemClick = ::openMessages,
-                    onBackPressed = ::finish,
-                    onHeaderAvatarClick = {
-                        MessengerHelper.disconnectUser()
-                        openUserLogin()
+
+                Scaffold(
+                    bottomBar = {
+                        MessengerCloneBottomBar()
                     }
-                )
+                ) {
+                    MessengerCloneChannelsScreen(
+                        isShowingHeader = true,
+                        isShowingSearch = true,
+                        onItemClick = ::openMessages,
+                        onBackPressed = ::finish,
+                        onHeaderAvatarClick = {
+                            MessengerHelper.disconnectUser()
+                            openUserLogin()
+                        }
+                    )
+                }
+
             }
         }
     }
