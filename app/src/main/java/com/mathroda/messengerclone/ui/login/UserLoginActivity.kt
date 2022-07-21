@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mathroda.messengerclone.MessengerHelper
+import com.mathroda.messengerclone.utils.MessengerHelper
 import com.mathroda.messengerclone.data.PredefinedUserCredentials
 import com.mathroda.messengerclone.data.UserCredentials
 import com.mathroda.messengerclone.ui.channels.ChannelsActivity

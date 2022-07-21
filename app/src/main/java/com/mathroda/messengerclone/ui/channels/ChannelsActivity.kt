@@ -17,19 +17,23 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.MessengerApp
-import com.mathroda.messengerclone.MessengerHelper
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import com.mathroda.messengerclone.ui.MessagesActivity
 import com.mathroda.messengerclone.ui.channels.components.*
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
+import com.mathroda.messengerclone.utils.MessengerHelper
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.api.models.FilterObject
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
-import io.getstream.chat.android.client.api.models.querysort.QuerySorter
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.compose.state.channels.list.*
 import io.getstream.chat.android.compose.ui.channels.info.SelectedChannelMenu
@@ -37,6 +41,7 @@ import io.getstream.chat.android.compose.ui.components.SimpleDialog
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelViewModelFactory
+import kotlin.math.roundToInt
 
 @ExperimentalFoundationApi
 class ChannelsActivity: BaseConnectedActivity() {
@@ -57,11 +62,6 @@ class ChannelsActivity: BaseConnectedActivity() {
         setContent {
             ChatTheme(dateFormatter = MessengerApp.dateFormatter) {
 
-                Scaffold(
-                    bottomBar = {
-                        MessengerCloneBottomBar()
-                    }
-                ) {
                     MessengerCloneChannelsScreen(
                         isShowingHeader = true,
                         isShowingSearch = true,
@@ -72,7 +72,6 @@ class ChannelsActivity: BaseConnectedActivity() {
                             openUserLogin()
                         }
                     )
-                }
 
             }
         }
@@ -82,8 +81,6 @@ class ChannelsActivity: BaseConnectedActivity() {
     @Composable
     @Suppress("LongMethod")
     fun MessengerCloneChannelsScreen(
-        filters: FilterObject? = null,
-        querySort: QuerySorter<Channel> = QuerySortByField.descByName("last_updated"),
         title: String = "Chats",
         isShowingHeader: Boolean = true,
         isShowingSearch: Boolean = false,
@@ -112,8 +109,25 @@ class ChannelsActivity: BaseConnectedActivity() {
         var searchQuery by rememberSaveable { mutableStateOf("") }
 
         Box(modifier = Modifier.fillMaxSize()) {
+            val bottomBarHeight = 55.dp
+            val bottomBarHeightPx = with(LocalDensity.current){ bottomBarHeight.roundToPx().toFloat()}
+            val bottomBarOffsetHeightPx = remember { mutableStateOf(0f)}
+
+            val nestedScrollerConnection = remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+
+                        val delta = available.y
+                        val newOffset = bottomBarOffsetHeightPx.value + delta
+                        bottomBarOffsetHeightPx.value = newOffset.coerceIn(-bottomBarHeightPx, 0f)
+
+                        return Offset.Zero
+                    }
+                }
+            }
+
             Scaffold(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.nestedScroll(nestedScrollerConnection),
                 topBar = {
                     if (isShowingHeader) {
                         MessengerCloneListHeader(
@@ -125,6 +139,14 @@ class ChannelsActivity: BaseConnectedActivity() {
                             elevation = 0.dp
                         )
                     }
+                },
+
+                bottomBar = {
+                    MessengerCloneBottomBar(
+                        modifier = Modifier
+                            .height(bottomBarHeight)
+                            .offset {(IntOffset(x = 0, y = -bottomBarOffsetHeightPx.value.roundToInt()))}
+                    )
                 }
 
             ) {

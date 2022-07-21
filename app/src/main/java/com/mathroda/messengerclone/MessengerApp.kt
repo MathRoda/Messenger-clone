@@ -4,11 +4,10 @@ import android.app.Application
 import com.getstream.sdk.chat.utils.DateFormatter
 import com.mathroda.messengerclone.data.PredefinedUserCredentials
 import com.mathroda.messengerclone.data.UserCredentialsRepository
+import com.mathroda.messengerclone.utils.MessengerHelper
 import io.getstream.chat.android.client.utils.internal.toggle.ToggleService
-import io.getstream.chat.android.compose.ui.theme.ChatTheme.dateFormatter
 import io.getstream.chat.android.core.internal.InternalStreamChatApi
 import io.getstream.chat.android.state.BuildConfig
-import java.util.*
 
 class MessengerApp: Application() {
 

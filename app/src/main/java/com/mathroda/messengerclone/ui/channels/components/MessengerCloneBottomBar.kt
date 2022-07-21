@@ -12,14 +12,18 @@ import com.mathroda.messengerclone.ui.theme.BottomSelected
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
 @Composable
-fun MessengerCloneBottomBar() {
+fun MessengerCloneBottomBar(
+    modifier: Modifier = Modifier
+) {
     val screens = listOf(
         BottomScreens.Chats,
         BottomScreens.Calls,
         BottomScreens.People
     )
 
-    BottomNavigation(backgroundColor = ChatTheme.colors.barsBackground) {
+    BottomNavigation(
+        modifier = modifier,
+        backgroundColor = ChatTheme.colors.barsBackground) {
         screens.forEach { screen ->
             BottomNavigationItem(
                 label = { Text(text = screen.title!!) },
@@ -27,7 +31,7 @@ fun MessengerCloneBottomBar() {
                        Icon(
                            painter = painterResource(id = screen.icon!!),
                            contentDescription = null,
-                           modifier = Modifier.size(25.dp)
+                           modifier = Modifier.size(22.dp)
                        )
                 },
                 selected = screen.icon == BottomScreens.Chats.icon ,

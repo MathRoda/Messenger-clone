@@ -1,6 +1,7 @@
-package com.mathroda.messengerclone
+package com.mathroda.messengerclone.utils
 
 import android.content.Context
+import com.mathroda.messengerclone.MessengerApp
 import com.mathroda.messengerclone.data.UserCredentials
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.errors.ChatError
