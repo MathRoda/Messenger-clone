@@ -112,7 +112,7 @@ internal fun DefaultChannelHeaderLeadingContent(
                     .wrapContentWidth()
                     .padding(horizontal = 16.dp),
                 text = title,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Start,
                 fontSize = 21.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,

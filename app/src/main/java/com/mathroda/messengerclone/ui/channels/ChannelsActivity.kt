@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.MessengerApp
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
-import com.mathroda.messengerclone.ui.MessagesActivity
 import com.mathroda.messengerclone.ui.channels.components.*
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
-import com.mathroda.messengerclone.utils.MessengerHelper
+import com.mathroda.messengerclone.ui.messages.MessagesActivity
+import com.mathroda.messengerclone.ui.profile.ProfileActivity
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
 import io.getstream.chat.android.client.models.Channel
@@ -68,8 +68,10 @@ class ChannelsActivity: BaseConnectedActivity() {
                         onItemClick = ::openMessages,
                         onBackPressed = ::finish,
                         onHeaderAvatarClick = {
-                            MessengerHelper.disconnectUser()
-                            openUserLogin()
+                           //MessengerHelper.disconnectUser()
+                            //openUserLogin()
+                            openProfile()
+
                         }
                     )
 
@@ -255,6 +257,12 @@ class ChannelsActivity: BaseConnectedActivity() {
 
     private fun openMessages(channel: Channel) {
         startActivity(MessagesActivity.getIntent(this, channel.cid))
+    }
+
+    private fun openProfile() {
+        finish()
+        startActivity(ProfileActivity.getIntent(this))
+        overridePendingTransition(0, 0)
     }
 
     private fun openUserLogin() {

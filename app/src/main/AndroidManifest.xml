@@ -17,17 +17,22 @@
         android:theme="@style/Theme.MessengerClone"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
             android:name=".ui.channels.ChannelsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.login.UserLoginActivity"
             android:exported="false"
             android:label="@string/title_activity_user_login"
             android:theme="@style/Theme.MessengerClone" />
         <activity
-            android:name=".ui.MessagesActivity"
+            android:name=".ui.messages.MessagesActivity"
             android:exported="false"
             android:label="@string/title_activity_messages"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"

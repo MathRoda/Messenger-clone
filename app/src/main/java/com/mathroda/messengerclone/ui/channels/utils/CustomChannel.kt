@@ -10,10 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.ui.channels.components.DefaultChannelsLoadingMoreIndicator
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneScrollerChannel
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneSearchInput
-import io.getstream.chat.android.client.models.Channel
-import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.compose.handlers.LoadMoreHandler
 import io.getstream.chat.android.compose.state.channels.list.ChannelItemState
 import io.getstream.chat.android.compose.state.channels.list.ChannelsState

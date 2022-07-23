@@ -1,8 +1,6 @@
 package com.mathroda.messengerclone.ui.channels.screen
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.compose.ui.graphics.painter.Painter
 import com.mathroda.messengerclone.R
 
 sealed class BottomScreens(

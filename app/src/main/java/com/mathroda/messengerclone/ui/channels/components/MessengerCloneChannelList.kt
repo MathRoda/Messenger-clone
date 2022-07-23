@@ -10,19 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mathroda.messengerclone.R
+import com.mathroda.messengerclone.ui.channels.utils.CustomChannel
+import com.mathroda.messengerclone.ui.channels.utils.CustomChannelItem
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.compose.state.channels.list.ChannelItemState
 import io.getstream.chat.android.compose.state.channels.list.ChannelsState
-import io.getstream.chat.android.compose.ui.channels.list.*
 import io.getstream.chat.android.compose.ui.components.EmptyContent
+import io.getstream.chat.android.compose.ui.components.LoadingFooter
 import io.getstream.chat.android.compose.ui.components.LoadingIndicator
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
-import com.mathroda.messengerclone.R
-import com.mathroda.messengerclone.ui.channels.utils.CustomChannel
-import com.mathroda.messengerclone.ui.channels.utils.CustomChannelItem
-import com.mathroda.messengerclone.ui.channels.utils.CustomUserScrollerItem
-import io.getstream.chat.android.compose.ui.components.LoadingFooter
 
 @ExperimentalFoundationApi
 @Composable

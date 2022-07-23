@@ -1,11 +1,11 @@
-package com.mathroda.messengerclone.ui
+package com.mathroda.messengerclone.ui.messages
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import io.getstream.chat.android.common.state.DeletedMessageVisibility
 import io.getstream.chat.android.compose.ui.messages.MessagesScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme

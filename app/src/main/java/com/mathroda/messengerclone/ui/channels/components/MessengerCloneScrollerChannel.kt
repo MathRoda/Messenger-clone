@@ -8,8 +8,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mathroda.messengerclone.ui.channels.utils.CustomChannel
-import com.mathroda.messengerclone.ui.channels.utils.CustomChannelItem
 import com.mathroda.messengerclone.ui.channels.utils.CustomUserScroller
 import com.mathroda.messengerclone.ui.channels.utils.CustomUserScrollerItem
 import io.getstream.chat.android.client.models.Channel
