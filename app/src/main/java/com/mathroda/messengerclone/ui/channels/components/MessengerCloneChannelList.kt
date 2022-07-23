@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,12 +23,15 @@ import io.getstream.chat.android.compose.ui.components.LoadingFooter
 import io.getstream.chat.android.compose.ui.components.LoadingIndicator
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun MessengerCloneChannelList(
     channelsState: ChannelsState,
     currentUser: User?,
     modifier: Modifier = Modifier,
+    query: String,
+    onValueChange: (String) -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     lazyListState: LazyListState = rememberLazyListState(),
     onLastItemReached: () -> Unit = {},
@@ -67,6 +71,10 @@ fun MessengerCloneChannelList(
             loadingMoreContent = loadingMoreContent,
             itemContent = itemContent,
             divider = divider,
+            query = query,
+            onValueChange = onValueChange,
+            currentUser = currentUser,
+            onChannelClick = onChannelClick
         )
         searchQuery.isNotEmpty() -> emptySearchContent(searchQuery)
         else -> emptyContent()

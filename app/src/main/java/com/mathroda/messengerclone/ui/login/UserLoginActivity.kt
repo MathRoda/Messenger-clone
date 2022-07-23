@@ -19,9 +19,9 @@ import com.mathroda.messengerclone.common.MessengerCloneCommonHeader
 import com.mathroda.messengerclone.data.PredefinedUserCredentials
 import com.mathroda.messengerclone.data.UserCredentials
 import com.mathroda.messengerclone.ui.channels.ChannelsActivity
-import com.mathroda.messengerclone.ui.login.util.CreateNewAccountBottom
-import com.mathroda.messengerclone.ui.login.util.CustomAddAccount
-import com.mathroda.messengerclone.ui.login.util.UserLoginItem
+import com.mathroda.messengerclone.ui.login.components.CreateNewAccountBottom
+import com.mathroda.messengerclone.ui.login.components.CustomAddAccount
+import com.mathroda.messengerclone.ui.login.components.UserLoginItem
 import com.mathroda.messengerclone.utils.MessengerHelper
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
