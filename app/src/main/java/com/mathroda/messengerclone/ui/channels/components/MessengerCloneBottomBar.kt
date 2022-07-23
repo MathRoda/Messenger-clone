@@ -26,6 +26,7 @@ fun MessengerCloneBottomBar(
 
     BottomNavigation(
         modifier = modifier,
+        elevation = 6.dp,
         backgroundColor = ChatTheme.colors.barsBackground) {
         screens.forEach { screen ->
             BottomNavigationItem(
@@ -40,8 +41,9 @@ fun MessengerCloneBottomBar(
                 selected = screen.icon == BottomScreens.Chats.icon ,
                 onClick = { /*TODO*/ },
                 selectedContentColor = BottomSelected,
-                unselectedContentColor = Color.Gray
+                unselectedContentColor = Color.Gray,
             )
         }
     }
+
 }

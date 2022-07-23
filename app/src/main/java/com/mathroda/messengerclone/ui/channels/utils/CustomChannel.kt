@@ -5,16 +5,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.ui.channels.components.DefaultChannelsLoadingMoreIndicator
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneScrollerChannel
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneSearchInput
+import io.getstream.chat.android.client.models.Channel
+import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.compose.handlers.LoadMoreHandler
 import io.getstream.chat.android.compose.state.channels.list.ChannelItemState
 import io.getstream.chat.android.compose.state.channels.list.ChannelsState
 import io.getstream.chat.android.compose.ui.components.LoadingFooter
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun CustomChannel(
@@ -27,10 +34,15 @@ fun CustomChannel(
     loadingMoreContent: @Composable () -> Unit = { DefaultChannelsLoadingMoreIndicator() },
     itemContent: @Composable (ChannelItemState) -> Unit,
     divider: @Composable () -> Unit,
+    query: String,
+    onValueChange: (String) -> Unit,
+    currentUser: User?,
+    onChannelClick: (Channel) -> Unit,
 ) {
     val (_, isLoadingMore, endOfChannels, channelItems) = channelsState
 
     Box(modifier = modifier) {
+
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
@@ -39,6 +51,14 @@ fun CustomChannel(
             ) {
                 item {
                     DummyFirstChannelItem()
+
+                    CustomSearchInputButton()
+
+                    MessengerCloneScrollerChannel(
+                        channelsState = channelsState ,
+                        currentUser = currentUser,
+                        onChannelClick = onChannelClick
+                    )
                 }
 
                 items(

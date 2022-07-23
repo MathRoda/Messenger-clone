@@ -12,6 +12,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,6 +44,7 @@ import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelViewModelFactory
 import kotlin.math.roundToInt
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 class ChannelsActivity: BaseConnectedActivity() {
 
@@ -64,14 +66,10 @@ class ChannelsActivity: BaseConnectedActivity() {
 
                     MessengerCloneChannelsScreen(
                         isShowingHeader = true,
-                        isShowingSearch = true,
                         onItemClick = ::openMessages,
                         onBackPressed = ::finish,
                         onHeaderAvatarClick = {
-                           //MessengerHelper.disconnectUser()
-                            //openUserLogin()
                             openProfile()
-
                         }
                     )
 
@@ -85,7 +83,6 @@ class ChannelsActivity: BaseConnectedActivity() {
     fun MessengerCloneChannelsScreen(
         title: String = "Chats",
         isShowingHeader: Boolean = true,
-        isShowingSearch: Boolean = false,
         channelLimit: Int = 30,
         memberLimit: Int = 1,
         messageLimit: Int = 30,
@@ -111,25 +108,9 @@ class ChannelsActivity: BaseConnectedActivity() {
         var searchQuery by rememberSaveable { mutableStateOf("") }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            val bottomBarHeight = 55.dp
-            val bottomBarHeightPx = with(LocalDensity.current){ bottomBarHeight.roundToPx().toFloat()}
-            val bottomBarOffsetHeightPx = remember { mutableStateOf(0f)}
 
-            val nestedScrollerConnection = remember {
-                object : NestedScrollConnection {
-                    override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-
-                        val delta = available.y
-                        val newOffset = bottomBarOffsetHeightPx.value + delta
-                        bottomBarOffsetHeightPx.value = newOffset.coerceIn(-bottomBarHeightPx, 0f)
-
-                        return Offset.Zero
-                    }
-                }
-            }
 
             Scaffold(
-                modifier = Modifier.nestedScroll(nestedScrollerConnection),
                 topBar = {
                     if (isShowingHeader) {
                         MessengerCloneListHeader(
@@ -144,11 +125,7 @@ class ChannelsActivity: BaseConnectedActivity() {
                 },
 
                 bottomBar = {
-                    MessengerCloneBottomBar(
-                        modifier = Modifier
-                            .height(bottomBarHeight)
-                            .offset {(IntOffset(x = 0, y = -bottomBarOffsetHeightPx.value.roundToInt()))}
-                    )
+                    MessengerCloneBottomBar()
                 }
 
             ) {
@@ -157,33 +134,21 @@ class ChannelsActivity: BaseConnectedActivity() {
                         .fillMaxSize()
                         .background(color = ChatTheme.colors.barsBackground)
                 ) {
-                    if (isShowingSearch) {
-                        MessengerCloneSearchInput(
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp, vertical = 8.dp)
-                                .fillMaxWidth(),
-                            query = searchQuery,
-                            onSearchStarted = {},
-                            onValueChange = {
-                                searchQuery = it
-                                listViewModel.setSearchQuery(it)
-                            },
-                        )
-                    }
-
-                    MessengerCloneScrollerChannel(
-                        channelsState = channelState,
-                        currentUser = user,
-                        onChannelClick = onItemClick,
-                    )
 
                     MessengerCloneChannelList(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(bottom = 56.dp),
                         channelsState = channelState,
                         currentUser = user,
                         onChannelClick = onItemClick,
                         onChannelLongClick = {
                             listViewModel.selectChannel(it)
+                        },
+                        query = searchQuery,
+                        onValueChange = {
+                            searchQuery = it
+                            listViewModel.setSearchQuery(it)
                         }
                     )
                 }

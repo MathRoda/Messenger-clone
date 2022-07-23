@@ -182,25 +182,3 @@ internal fun DefaultChannelListHeaderTrailingContent(
     }
 
 }
-
-@Preview
-@Composable
-fun PreviewHeader(
-    title: String = "Chats",
-    currentUser: User? = user1,
-    connectionState: ConnectionState = ConnectionState.CONNECTED,
-) {
-    ChatTheme {
-        MessengerCloneListHeader(
-            title = title,
-            currentUser = currentUser,
-            connectionState = connectionState
-        )
-    }
-}
-
-val user1: User = User().apply {
-    id = "jc"
-    name = "Jc Miñarro"
-    image = "https://ca.slack-edge.com/T02RM6X6B-U011KEXDPB2-891dbb8df64f-128"
-}
