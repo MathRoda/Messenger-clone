@@ -1,4 +1,4 @@
-package com.mathroda.messengerclone.ui.profile.components
+package com.mathroda.messengerclone.common
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
@@ -20,13 +20,17 @@ import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.util.mirrorRtl
 
 @Composable
-fun MessengerCloneProfileHeader(
+fun MessengerCloneCommonHeader(
+    title: String,
     modifier: Modifier = Modifier,
     color: Color = ChatTheme.colors.barsBackground,
     shape: Shape = ChatTheme.shapes.header,
     onBackPressed: () -> Unit = {},
     leadingContent: @Composable RowScope.() -> Unit = {
-        DefaultProfileHeaderLeadingContent(onBackPressed = onBackPressed)
+        DefaultProfileHeaderLeadingContent(
+            onBackPressed = onBackPressed,
+            title = title
+        )
     },
 ) {
     Surface(
@@ -46,7 +50,10 @@ fun MessengerCloneProfileHeader(
 }
 
 @Composable
-fun DefaultProfileHeaderLeadingContent(onBackPressed: () -> Unit) {
+fun DefaultProfileHeaderLeadingContent(
+    onBackPressed: () -> Unit,
+    title: String
+) {
     val layoutDirection = LocalLayoutDirection.current
 
     BackButton(
@@ -59,7 +66,7 @@ fun DefaultProfileHeaderLeadingContent(onBackPressed: () -> Unit) {
         modifier = Modifier
             .wrapContentWidth()
             .padding(horizontal = 16.dp),
-        text = "Me",
+        text = title,
         textAlign = TextAlign.Start,
         fontSize = 21.sp,
         fontWeight = FontWeight.Bold,

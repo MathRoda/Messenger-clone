@@ -16,12 +16,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mathroda.messengerclone.common.MessengerCloneCommonHeader
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import com.mathroda.messengerclone.ui.channels.ChannelsActivity
-import com.mathroda.messengerclone.ui.profile.components.MessengerCloneProfileHeader
+import com.mathroda.messengerclone.ui.login.UserLoginActivity
 import com.mathroda.messengerclone.ui.profile.components.MessengerCloneProfileInfo
 import com.mathroda.messengerclone.ui.profile.components.MessengerCloneProfileSettings
-import com.mathroda.messengerclone.ui.profile.util.CustomUserAvatar
+import com.mathroda.messengerclone.utils.MessengerHelper
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
@@ -48,6 +49,10 @@ class ProfileActivity : BaseConnectedActivity() {
                 MessengerCloneProfileScreen(
                     onBackPressed = {
                         openChannels()
+                    },
+                    onSwitchAccount = {
+                        MessengerHelper.disconnectUser()
+                        openUserLogin()
                     }
                 )
             }
@@ -63,14 +68,15 @@ class ProfileActivity : BaseConnectedActivity() {
         val user by listViewModel.user.collectAsState()
 
         BackHandler { openChannels() }
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Scaffold(
                 topBar = {
                     if (isShowingHeader) {
-                        MessengerCloneProfileHeader(
+                        MessengerCloneCommonHeader(
                             modifier = Modifier
                                 .height(56.dp),
-                            onBackPressed = onBackPressed
+                            onBackPressed = onBackPressed,
+                            title = "Me"
                         )
                     }
                 },
@@ -78,7 +84,8 @@ class ProfileActivity : BaseConnectedActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = ChatTheme.colors.barsBackground),
+                        .background(color = ChatTheme.colors.barsBackground)
+                        .padding(4.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -88,7 +95,9 @@ class ProfileActivity : BaseConnectedActivity() {
                     )
 
                     Spacer(modifier = Modifier.size(16.dp))
-                    MessengerCloneProfileSettings()
+                    MessengerCloneProfileSettings(
+                        onSwitchAccount = onSwitchAccount
+                    )
                 }
             }
         }
@@ -99,6 +108,13 @@ class ProfileActivity : BaseConnectedActivity() {
         startActivity(ChannelsActivity.createIntent(this))
         overridePendingTransition(0, 0)
     }
+
+    private fun openUserLogin() {
+        finish()
+        startActivity(UserLoginActivity.createIntent(this))
+        overridePendingTransition(0, 0)
+    }
+
     companion object{
         fun getIntent(context: Context): Intent {
             return Intent(context, ProfileActivity::class.java)

@@ -265,11 +265,6 @@ class ChannelsActivity: BaseConnectedActivity() {
         overridePendingTransition(0, 0)
     }
 
-    private fun openUserLogin() {
-        finish()
-        startActivity(UserLoginActivity.createIntent(this))
-        overridePendingTransition(0, 0)
-    }
 
     companion object {
         fun createIntent(context: Context): Intent {
