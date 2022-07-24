@@ -9,38 +9,45 @@ import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.MessengerApp
-import com.mathroda.messengerclone.MessengerHelper
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
-import com.mathroda.messengerclone.ui.MessagesActivity
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneListHeader
+import com.mathroda.messengerclone.ui.channels.components.*
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
+import com.mathroda.messengerclone.ui.messages.MessagesActivity
+import com.mathroda.messengerclone.ui.profile.ProfileActivity
+import com.mathroda.messengerclone.ui.search.SearchActivity
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.api.models.FilterObject
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
-import io.getstream.chat.android.client.api.models.querysort.QuerySorter
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.compose.state.channels.list.*
-import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
-import io.getstream.chat.android.compose.ui.channels.header.ChannelListHeader
 import io.getstream.chat.android.compose.ui.channels.info.SelectedChannelMenu
-import io.getstream.chat.android.compose.ui.channels.list.ChannelList
 import io.getstream.chat.android.compose.ui.components.SearchInput
 import io.getstream.chat.android.compose.ui.components.SimpleDialog
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelViewModelFactory
+import kotlin.math.roundToInt
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 class ChannelsActivity: BaseConnectedActivity() {
 
     private val factory by lazy {
@@ -58,16 +65,16 @@ class ChannelsActivity: BaseConnectedActivity() {
 
         setContent {
             ChatTheme(dateFormatter = MessengerApp.dateFormatter) {
-                MessengerCloneChannelsScreen(
-                    isShowingHeader = true,
-                    isShowingSearch = true,
-                    onItemClick = ::openMessages,
-                    onBackPressed = ::finish,
-                    onHeaderAvatarClick = {
-                        MessengerHelper.disconnectUser()
-                        openUserLogin()
-                    }
-                )
+
+                    MessengerCloneChannelsScreen(
+                        isShowingHeader = true,
+                        onItemClick = ::openMessages,
+                        onBackPressed = ::finish,
+                        onHeaderAvatarClick = {
+                            openProfile()
+                        }
+                    )
+
             }
         }
     }
@@ -76,11 +83,8 @@ class ChannelsActivity: BaseConnectedActivity() {
     @Composable
     @Suppress("LongMethod")
     fun MessengerCloneChannelsScreen(
-        filters: FilterObject? = null,
-        querySort: QuerySorter<Channel> = QuerySortByField.descByName("last_updated"),
         title: String = "Chats",
         isShowingHeader: Boolean = true,
-        isShowingSearch: Boolean = false,
         channelLimit: Int = 30,
         memberLimit: Int = 1,
         messageLimit: Int = 30,
@@ -93,6 +97,7 @@ class ChannelsActivity: BaseConnectedActivity() {
         val selectedChannel by listViewModel.selectedChannel
         val user by listViewModel.user.collectAsState()
         val connectionState by listViewModel.connectionState.collectAsState()
+        val channelState = listViewModel.channelsState
 
         BackHandler(enabled = true) {
             if (selectedChannel != null) {
@@ -102,11 +107,9 @@ class ChannelsActivity: BaseConnectedActivity() {
             }
         }
 
-        var searchQuery by rememberSaveable { mutableStateOf("") }
-
         Box(modifier = Modifier.fillMaxSize()) {
+
             Scaffold(
-                modifier = Modifier.fillMaxSize(),
                 topBar = {
                     if (isShowingHeader) {
                         MessengerCloneListHeader(
@@ -114,38 +117,34 @@ class ChannelsActivity: BaseConnectedActivity() {
                             onAvatarClick = { onHeaderAvatarClick() },
                             currentUser = user,
                             title = title,
-                            connectionState = connectionState
+                            connectionState = connectionState,
+                            elevation = 0.dp
                         )
                     }
+                },
+
+                bottomBar = {
+                    MessengerCloneBottomBar()
                 }
 
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(color = ChatTheme.colors.appBackground)
+                        .background(color = ChatTheme.colors.barsBackground)
                 ) {
-                    if (isShowingSearch) {
-                        SearchInput(
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp, vertical = 8.dp)
-                                .fillMaxWidth(),
-                            query = searchQuery,
-                            onSearchStarted = {},
-                            onValueChange = {
-                                searchQuery = it
-                                listViewModel.setSearchQuery(it)
-                            },
-                        )
-                    }
 
-                    ChannelList(
-                        modifier = Modifier.fillMaxSize(),
-                        viewModel = listViewModel,
+                    MessengerCloneChannelList(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(bottom = 56.dp),
+                        channelsState = channelState,
+                        currentUser = user,
                         onChannelClick = onItemClick,
                         onChannelLongClick = {
                             listViewModel.selectChannel(it)
-                        }
+                        },
+                        onSearchClick = ::openSearch
                     )
                 }
             }
@@ -220,11 +219,17 @@ class ChannelsActivity: BaseConnectedActivity() {
         startActivity(MessagesActivity.getIntent(this, channel.cid))
     }
 
-    private fun openUserLogin() {
+    private fun openProfile() {
         finish()
-        startActivity(UserLoginActivity.createIntent(this))
+        startActivity(ProfileActivity.getIntent(this))
         overridePendingTransition(0, 0)
     }
+
+    private fun openSearch() {
+        startActivity(SearchActivity.getIntent(this))
+        overridePendingTransition(0, 0)
+    }
+
 
     companion object {
         fun createIntent(context: Context): Intent {

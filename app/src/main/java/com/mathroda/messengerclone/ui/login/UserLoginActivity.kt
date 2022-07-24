@@ -5,36 +5,29 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.mathroda.messengerclone.MessengerHelper
+import com.mathroda.messengerclone.common.MessengerCloneCommonHeader
 import com.mathroda.messengerclone.data.PredefinedUserCredentials
 import com.mathroda.messengerclone.data.UserCredentials
 import com.mathroda.messengerclone.ui.channels.ChannelsActivity
-import io.getstream.chat.android.client.BuildConfig.STREAM_CHAT_VERSION
-import io.getstream.chat.android.compose.ui.components.avatar.UserAvatar
-import io.getstream.chat.android.compose.ui.theme.ChatTheme
-import com.mathroda.messengerclone.R
+import com.mathroda.messengerclone.ui.login.components.CreateNewAccountBottom
+import com.mathroda.messengerclone.ui.login.components.CustomAddAccount
+import com.mathroda.messengerclone.ui.login.components.UserLoginItem
+import com.mathroda.messengerclone.utils.MessengerHelper
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 class UserLoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +41,7 @@ class UserLoginActivity : ComponentActivity() {
                         MessengerHelper.connectUser(userCredentials)
                         openChannels()
                     }
-                ) {
-
-                }
+                )
             }
         }
     }
@@ -58,46 +49,27 @@ class UserLoginActivity : ComponentActivity() {
     @Composable
     fun UserLoginScreen(
         onUserItemClick: (UserCredentials) -> Unit,
-        onCustomLoginClick: () -> Unit,
+        onCustomLoginClick: () -> Unit =  {},
+        isShowingTopBar: Boolean = true
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
 
-            Icon(
-                modifier = Modifier.size(width = 80.dp, height = 40.dp),
-                painter = painterResource(id = R.drawable.ic_stream),
-                contentDescription = null,
-                tint = ChatTheme.colors.primaryAccent,
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                text = stringResource(R.string.user_login_screen_title),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                color = ChatTheme.colors.textHighEmphasis
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                text = stringResource(R.string.user_login_screen_subtitle),
-                fontSize = 14.sp,
-                color = ChatTheme.colors.textHighEmphasis
-            )
-
-            Spacer(modifier = Modifier.height(28.dp))
+        Scaffold (
+            topBar = {
+                if (isShowingTopBar) {
+                    MessengerCloneCommonHeader(
+                        title = "Switch Account"
+                    )
+                }
+            },
+            bottomBar = {
+                CreateNewAccountBottom()
+            }
+                ) {
 
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f),
+                    .padding(bottom = 70.dp)
             ) {
                 items(items = PredefinedUserCredentials.availableUsers) { userCredentials ->
                     UserLoginItem(
@@ -105,143 +77,17 @@ class UserLoginActivity : ComponentActivity() {
                         onItemClick = onUserItemClick
                     )
 
-                    DividerItem()
                 }
 
                 item {
-                    CustomLoginItem(onItemClick = onCustomLoginClick)
+                    CustomAddAccount(onItemClick = onCustomLoginClick)
                 }
             }
-
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = stringResource(R.string.sdk_version_template, STREAM_CHAT_VERSION),
-                fontSize = 14.sp,
-                color = ChatTheme.colors.textLowEmphasis
-            )
         }
     }
 
-    /**
-     * Represents a user whose credentials will be used for login.
-     */
-    @Composable
-    fun UserLoginItem(
-        userCredentials: UserCredentials,
-        onItemClick: (UserCredentials) -> Unit,
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .clickable(
-                    onClick = { onItemClick(userCredentials) },
-                    indication = rememberRipple(),
-                    interactionSource = remember { MutableInteractionSource() }
-                )
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            UserAvatar(
-                modifier = Modifier.size(40.dp),
-                user = userCredentials.user,
-            )
 
-            Column(
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .weight(1f)
-                    .padding(horizontal = 16.dp),
-            ) {
-                Text(
-                    text = userCredentials.user.name,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = ChatTheme.colors.textHighEmphasis
-                )
 
-                Text(
-                    text = stringResource(id = R.string.user_login_user_subtitle),
-                    fontSize = 12.sp,
-                    color = ChatTheme.colors.textLowEmphasis
-                )
-            }
-
-            Icon(
-                modifier = Modifier.wrapContentSize(),
-                painter = painterResource(id = R.drawable.ic_arrow_right),
-                contentDescription = null,
-                tint = ChatTheme.colors.primaryAccent
-            )
-        }
-    }
-
-    /**
-     * Represents the "Advanced option" list item.
-     */
-    @Composable
-    private fun CustomLoginItem(onItemClick: () -> Unit) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .clickable(
-                    onClick = { onItemClick() },
-                    indication = rememberRipple(),
-                    interactionSource = remember { MutableInteractionSource() }
-                )
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(40.dp)
-                    .background(ChatTheme.colors.disabled)
-                    .padding(8.dp),
-                painter = painterResource(id = R.drawable.ic_settings),
-                contentDescription = null,
-            )
-
-            Column(
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .weight(1f)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.user_login_advanced_options),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = ChatTheme.colors.textHighEmphasis
-                )
-
-                Text(
-                    text = stringResource(id = R.string.user_login_custom_settings),
-                    fontSize = 12.sp,
-                    color = ChatTheme.colors.textLowEmphasis
-                )
-            }
-
-            Icon(
-                modifier = Modifier.wrapContentSize(),
-                painter = painterResource(id = R.drawable.ic_arrow_right),
-                contentDescription = null,
-                tint = ChatTheme.colors.primaryAccent
-            )
-        }
-    }
-
-    @Composable
-    private fun DividerItem() {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(0.5.dp)
-                .background(color = ChatTheme.colors.borders)
-        )
-    }
 
     private fun openChannels() {
         startActivity(ChannelsActivity.createIntent(this))
@@ -254,4 +100,6 @@ class UserLoginActivity : ComponentActivity() {
             return Intent(context, UserLoginActivity::class.java)
         }
     }
+
+
 }

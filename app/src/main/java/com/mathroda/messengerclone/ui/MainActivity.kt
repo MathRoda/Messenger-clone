@@ -5,11 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import com.mathroda.messengerclone.MessengerApp
-import com.mathroda.messengerclone.MessengerHelper
 import com.mathroda.messengerclone.ui.channels.ChannelsActivity
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
+import com.mathroda.messengerclone.ui.messages.MessagesActivity
+import com.mathroda.messengerclone.utils.MessengerHelper
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
