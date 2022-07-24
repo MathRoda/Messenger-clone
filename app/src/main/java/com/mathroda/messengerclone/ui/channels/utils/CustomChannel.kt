@@ -6,14 +6,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.ui.channels.components.DefaultChannelsLoadingMoreIndicator
 import com.mathroda.messengerclone.ui.channels.components.MessengerCloneScrollerChannel
-import com.mathroda.messengerclone.ui.channels.components.MessengerCloneSearchInput
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.compose.handlers.LoadMoreHandler
@@ -28,14 +26,14 @@ fun CustomChannel(
     channelsState: ChannelsState,
     lazyListState: LazyListState,
     onLastItemReached: () -> Unit,
+    onSearchClick: () -> Unit,
+    searchState: Boolean,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
     helperContent: @Composable BoxScope.() -> Unit = {},
     loadingMoreContent: @Composable () -> Unit = { DefaultChannelsLoadingMoreIndicator() },
     itemContent: @Composable (ChannelItemState) -> Unit,
     divider: @Composable () -> Unit,
-    query: String,
-    onValueChange: (String) -> Unit,
     currentUser: User?,
     onChannelClick: (Channel) -> Unit,
 ) {
@@ -52,13 +50,17 @@ fun CustomChannel(
                 item {
                     DummyFirstChannelItem()
 
-                    CustomSearchInputButton()
+                    if (!searchState) {
+                        CustomSearchInputButton(
+                            onClick = onSearchClick
+                        )
 
-                    MessengerCloneScrollerChannel(
-                        channelsState = channelsState ,
-                        currentUser = currentUser,
-                        onChannelClick = onChannelClick
-                    )
+                        MessengerCloneScrollerChannel(
+                            channelsState = channelsState ,
+                            currentUser = currentUser,
+                            onChannelClick = onChannelClick
+                        )
+                    }
                 }
 
                 items(
@@ -108,3 +110,5 @@ private fun DummyFirstChannelItem() {
             .fillMaxWidth()
     )
 }
+
+

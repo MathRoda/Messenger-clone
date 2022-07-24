@@ -1,9 +1,10 @@
-package com.mathroda.messengerclone.ui.channels.utils
+package com.mathroda.messengerclone.ui.search.util
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.*
@@ -29,7 +30,6 @@ fun CustomInputField(
     enabled: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     border: BorderStroke = BorderStroke(0.dp, BubbleGray),
-    innerPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit,
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -46,15 +46,13 @@ fun CustomInputField(
         selection = selection
     )
 
-    val description = stringResource(id = R.string.stream_compose_cd_message_input)
 
     BasicTextField(
         modifier = modifier
             .border(border = border, shape = ChatTheme.shapes.inputField)
             .clip(ChatTheme.shapes.inputField)
-            .background(BubbleGray)
-            .padding(innerPadding)
-            .semantics { contentDescription = description },
+            .background(ChatTheme.colors.barsBackground)
+            .height(56.dp),
         value = textFieldValue,
         onValueChange = {
             textFieldValueState = it

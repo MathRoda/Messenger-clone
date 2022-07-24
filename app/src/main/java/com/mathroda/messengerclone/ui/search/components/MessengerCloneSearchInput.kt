@@ -1,4 +1,4 @@
-package com.mathroda.messengerclone.ui.channels.components
+package com.mathroda.messengerclone.ui.search.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -12,7 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.R
-import com.mathroda.messengerclone.ui.channels.utils.CustomInputField
+import com.mathroda.messengerclone.ui.search.util.CustomInputField
+import io.getstream.chat.android.compose.ui.components.BackButton
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
 @Composable
@@ -21,7 +22,8 @@ fun MessengerCloneSearchInput(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     onSearchStarted: () -> Unit = {},
-    leadingIcon: @Composable RowScope.() -> Unit = { DefaultSearchLeadingIcon() },
+    onBackPressed: () -> Unit,
+    leadingIcon: @Composable RowScope.() -> Unit = { DefaultSearchLeadingIcon(onBackPressed) },
     label: @Composable () -> Unit = { DefaultSearchLabel() },
 ) {
     var isFocused by remember { mutableStateOf(false) }
@@ -78,21 +80,17 @@ fun MessengerCloneSearchInput(
             }
         },
         maxLines = 1,
-        innerPadding = PaddingValues(5.dp),
+       // innerPadding = PaddingValues(5.dp),
 
     )
 }
 
 @Composable
-fun RowScope.DefaultSearchLeadingIcon() {
-    Icon(
-        modifier = Modifier
-            .weight(1f)
-            .size(15.dp),
-        painter = painterResource(id = R.drawable.ic_search),
-        contentDescription = null,
-        tint = Color.LightGray,
+fun RowScope.DefaultSearchLeadingIcon(onBackPressed: () -> Unit) {
 
+    BackButton(
+        painter = painterResource(id = R.drawable.ic_arrow_back),
+        onBackPressed = { onBackPressed() }
     )
 }
 

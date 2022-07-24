@@ -48,7 +48,7 @@ fun UserLoginItem(
                 interactionSource = remember { MutableInteractionSource() }
             )
             .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = CenterVertically,
     ) {
         UserAvatar(
             modifier = Modifier.size(40.dp),

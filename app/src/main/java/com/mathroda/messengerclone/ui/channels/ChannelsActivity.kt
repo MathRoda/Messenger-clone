@@ -33,11 +33,13 @@ import com.mathroda.messengerclone.ui.channels.components.*
 import com.mathroda.messengerclone.ui.login.UserLoginActivity
 import com.mathroda.messengerclone.ui.messages.MessagesActivity
 import com.mathroda.messengerclone.ui.profile.ProfileActivity
+import com.mathroda.messengerclone.ui.search.SearchActivity
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.compose.state.channels.list.*
 import io.getstream.chat.android.compose.ui.channels.info.SelectedChannelMenu
+import io.getstream.chat.android.compose.ui.components.SearchInput
 import io.getstream.chat.android.compose.ui.components.SimpleDialog
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
@@ -105,10 +107,7 @@ class ChannelsActivity: BaseConnectedActivity() {
             }
         }
 
-        var searchQuery by rememberSaveable { mutableStateOf("") }
-
         Box(modifier = Modifier.fillMaxSize()) {
-
 
             Scaffold(
                 topBar = {
@@ -145,11 +144,7 @@ class ChannelsActivity: BaseConnectedActivity() {
                         onChannelLongClick = {
                             listViewModel.selectChannel(it)
                         },
-                        query = searchQuery,
-                        onValueChange = {
-                            searchQuery = it
-                            listViewModel.setSearchQuery(it)
-                        }
+                        onSearchClick = ::openSearch
                     )
                 }
             }
@@ -227,6 +222,11 @@ class ChannelsActivity: BaseConnectedActivity() {
     private fun openProfile() {
         finish()
         startActivity(ProfileActivity.getIntent(this))
+        overridePendingTransition(0, 0)
+    }
+
+    private fun openSearch() {
+        startActivity(SearchActivity.getIntent(this))
         overridePendingTransition(0, 0)
     }
 

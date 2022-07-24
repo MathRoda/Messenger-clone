@@ -30,8 +30,8 @@ fun MessengerCloneChannelList(
     channelsState: ChannelsState,
     currentUser: User?,
     modifier: Modifier = Modifier,
-    query: String,
-    onValueChange: (String) -> Unit,
+    searchState: Boolean = false,
+    onSearchClick: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     lazyListState: LazyListState = rememberLazyListState(),
     onLastItemReached: () -> Unit = {},
@@ -61,6 +61,9 @@ fun MessengerCloneChannelList(
 
     when {
         isLoading -> loadingContent()
+        searchQuery.isEmpty() && searchState -> {
+            emptyContent()
+        }
         !isLoading && channels.isNotEmpty() -> CustomChannel(
             modifier = modifier,
             contentPadding = contentPadding,
@@ -71,10 +74,10 @@ fun MessengerCloneChannelList(
             loadingMoreContent = loadingMoreContent,
             itemContent = itemContent,
             divider = divider,
-            query = query,
-            onValueChange = onValueChange,
             currentUser = currentUser,
-            onChannelClick = onChannelClick
+            onChannelClick = onChannelClick,
+            onSearchClick = onSearchClick,
+            searchState = searchState
         )
         searchQuery.isNotEmpty() -> emptySearchContent(searchQuery)
         else -> emptyContent()
