@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
+import com.mathroda.messengerclone.ui.messages.components.MessengerCloneMessageList
 import com.mathroda.messengerclone.ui.messages.components.MessengerCloneMessagesComposer
 import com.mathroda.messengerclone.ui.messages.components.MessengerCloneMessagesHeader
 import io.getstream.chat.android.client.models.Channel
@@ -155,7 +156,6 @@ class MessagesActivity : BaseConnectedActivity() {
                             .align(Alignment.Center),
                         viewModel = composerViewModel,
                         onAttachmentsClick = { attachmentsPickerViewModel.changeAttachmentState(true) },
-                        onCommandsClick = { composerViewModel.toggleCommandsVisibility() },
                         onCancelAction = {
                             listViewModel.dismissAllMessageActions()
                             composerViewModel.dismissMessageActions()
@@ -163,7 +163,7 @@ class MessagesActivity : BaseConnectedActivity() {
                     )
                 }
             ) {
-                MessageList(
+                MessengerCloneMessageList(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(ChatTheme.colors.barsBackground)

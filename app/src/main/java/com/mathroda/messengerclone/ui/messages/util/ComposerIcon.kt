@@ -17,7 +17,7 @@ fun ComposerIcon(
     modifier: Modifier = Modifier,
     enabled: Boolean,
     painter: Painter,
-    onAttachmentsClick: () -> Unit
+    onClick: () -> Unit
 ) {
     IconButton(
         enabled = enabled,
@@ -31,6 +31,6 @@ fun ComposerIcon(
                 tint = BottomSelected,
             )
         },
-        onClick = onAttachmentsClick
+        onClick = onClick
     )
 }

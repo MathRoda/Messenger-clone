@@ -8,11 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.R
-import com.mathroda.messengerclone.ui.search.util.CustomInputField
+import com.mathroda.messengerclone.common.CustomInputField
 import io.getstream.chat.android.compose.ui.components.BackButton
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
@@ -80,13 +79,13 @@ fun MessengerCloneSearchInput(
             }
         },
         maxLines = 1,
-       // innerPadding = PaddingValues(5.dp),
+       innerPadding = PaddingValues(0.dp),
 
     )
 }
 
 @Composable
-fun RowScope.DefaultSearchLeadingIcon(onBackPressed: () -> Unit) {
+fun DefaultSearchLeadingIcon(onBackPressed: () -> Unit) {
 
     BackButton(
         painter = painterResource(id = R.drawable.ic_arrow_back),

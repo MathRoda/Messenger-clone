@@ -1,6 +1,7 @@
 package com.mathroda.messengerclone.ui.messages.components
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.window.Popup
 import com.getstream.sdk.chat.utils.MediaStringUtil
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.messages.util.ComposerIcon
+import com.mathroda.messengerclone.ui.messages.util.CustomMessageInput
 import com.mathroda.messengerclone.ui.theme.BottomSelected
 import com.mathroda.messengerclone.utils.AboveAnchorPopupPositionProvider
 import io.getstream.chat.android.client.models.*
@@ -41,7 +43,6 @@ fun MessengerCloneMessagesComposer(
     modifier: Modifier = Modifier,
     onSendMessage: (Message) -> Unit = { viewModel.sendMessage(it) },
     onAttachmentsClick: () -> Unit = {},
-    onCommandsClick: () -> Unit = {},
     onValueChange: (String) -> Unit = { viewModel.setMessageInput(it) },
     onAttachmentRemoved: (Attachment) -> Unit = { viewModel.removeSelectedAttachment(it) },
     onCancelAction: () -> Unit = { viewModel.dismissMessageActions() },
@@ -72,11 +73,10 @@ fun MessengerCloneMessagesComposer(
             onCommandSelected = onCommandSelected
         )
     },
-    integrations: @Composable RowScope.(MessageComposerState) -> Unit = {
-        DefaultComposerIntegrations(
+   integrations: @Composable RowScope.(MessageComposerState) -> Unit = {
+        DefaultComposerIntegration(
             messageInputState = it,
             onAttachmentsClick = onAttachmentsClick,
-            onCommandsClick = onCommandsClick,
             ownCapabilities = it.ownCapabilities
         )
     },
@@ -130,156 +130,13 @@ fun MessengerCloneMessagesComposer(
 }
 
 /**
- * Clean version of the [MessageComposer] that doesn't rely on ViewModels, so the user can provide a
- * manual way to handle and represent data and various operations.
- *
- * @param messageComposerState The state of the message input.
- * @param onSendMessage Handler when the user wants to send a message.
- * @param modifier Modifier for styling.
- * @param onAttachmentsClick Handler for the default Attachments integration.
- * @param onCommandsClick Handler for the default Commands integration.
- * @param onValueChange Handler when the input field value changes.
- * @param onAttachmentRemoved Handler when the user taps on the cancel/delete attachment action.
- * @param onCancelAction Handler for the cancel button on Message actions, such as Edit and Reply.
- * @param onMentionSelected Handler when the user taps on a mention suggestion item.
- * @param onCommandSelected Handler when the user taps on a command suggestion item.
- * @param onAlsoSendToChannelSelected Handler when the user checks the also send to channel checkbox.
- * @param headerContent The content shown at the top of the message composer.
- * @param footerContent The content shown at the bottom of the message composer.
- * @param mentionPopupContent Customizable composable that represents the mention suggestions popup.
- * @param commandPopupContent Customizable composable that represents the instant command suggestions popup.
- * @param integrations A view that represents custom integrations. By default, we provide
- * [DefaultComposerIntegrations], which show Attachments & Giphy, but users can override this with
- * their own integrations, which they need to hook up to their own data providers and UI.
- * @param label Customizable composable that represents the input field label (hint).
- * @param input Customizable composable that represents the input field for the composer, [MessageInput] by default.
- * @param trailingContent Customizable composable that represents the trailing content of the composer, send button
- * by default.
- */
-@Composable
- fun MessageComposer(
-    messageComposerState: MessageComposerState,
-    onSendMessage: (String, List<Attachment>) -> Unit,
-    modifier: Modifier = Modifier,
-    onAttachmentsClick: () -> Unit = {},
-    onCommandsClick: () -> Unit = {},
-    onValueChange: (String) -> Unit = {},
-    onAttachmentRemoved: (Attachment) -> Unit = {},
-    onCancelAction: () -> Unit = {},
-    onMentionSelected: (User) -> Unit = {},
-    onCommandSelected: (Command) -> Unit = {},
-    onAlsoSendToChannelSelected: (Boolean) -> Unit = {},
-    headerContent: @Composable ColumnScope.(MessageComposerState) -> Unit = {
-        DefaultMessageComposerHeaderContent(
-            messageComposerState = it,
-            onCancelAction = onCancelAction,
-        )
-    },
-    footerContent: @Composable ColumnScope.(MessageComposerState) -> Unit = {
-        DefaultMessageComposerFooterContent(
-            messageComposerState = it,
-            onAlsoSendToChannelSelected = onAlsoSendToChannelSelected,
-        )
-    },
-    mentionPopupContent: @Composable (List<User>) -> Unit = {
-        DefaultMentionPopupContent(
-            mentionSuggestions = it,
-            onMentionSelected = onMentionSelected
-        )
-    },
-    commandPopupContent: @Composable (List<Command>) -> Unit = {
-        DefaultCommandPopupContent(
-            commandSuggestions = it,
-            onCommandSelected = onCommandSelected
-        )
-    },
-    integrations: @Composable RowScope.(MessageComposerState) -> Unit = {
-        DefaultComposerIntegrations(
-            messageInputState = it,
-            onAttachmentsClick = onAttachmentsClick,
-            onCommandsClick = onCommandsClick,
-            ownCapabilities = messageComposerState.ownCapabilities
-        )
-    },
-    label: @Composable (MessageComposerState) -> Unit = { DefaultComposerLabel(messageComposerState.ownCapabilities) },
-    input: @Composable RowScope.(MessageComposerState) -> Unit = {
-        DefaultComposerInputContent(
-            messageComposerState = messageComposerState,
-            onValueChange = onValueChange,
-            onAttachmentRemoved = onAttachmentRemoved,
-            label = label,
-        )
-    },
-    trailingContent: @Composable (MessageComposerState) -> Unit = {
-        DefaultMessageComposerTrailingContent(
-            value = it.inputValue,
-            coolDownTime = it.coolDownTime,
-            validationErrors = it.validationErrors,
-            attachments = it.attachments,
-            onSendMessage = onSendMessage,
-            ownCapabilities = messageComposerState.ownCapabilities
-        )
-    },
-) {
-    val (_, attachments, activeAction, validationErrors, mentionSuggestions, commandSuggestions) = messageComposerState
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    MessageInputValidationError(
-        validationErrors = validationErrors,
-        snackbarHostState = snackbarHostState
-    )
-
-    Surface(
-        modifier = modifier,
-        elevation = 4.dp,
-        color = ChatTheme.colors.barsBackground,
-    ) {
-        Column(Modifier.padding(vertical = 4.dp)) {
-            headerContent(messageComposerState)
-
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Bottom
-            ) {
-
-                if (activeAction !is Edit) {
-                    integrations(messageComposerState)
-                } else {
-                    Spacer(
-                        modifier = Modifier.size(16.dp)
-                    )
-                }
-
-                input(messageComposerState)
-
-                trailingContent(messageComposerState)
-            }
-
-            footerContent(messageComposerState)
-        }
-
-        if (snackbarHostState.currentSnackbarData != null) {
-            SnackbarPopup(snackbarHostState = snackbarHostState)
-        }
-
-        if (mentionSuggestions.isNotEmpty()) {
-            mentionPopupContent(mentionSuggestions)
-        }
-
-        if (commandSuggestions.isNotEmpty()) {
-            commandPopupContent(commandSuggestions)
-        }
-    }
-}
-
-/**
  * Represents the default content shown at the top of the message composer component.
  *
  * @param messageComposerState The state of the message composer.
  * @param onCancelAction Handler for the cancel button on Message actions, such as Edit and Reply.
  */
 @Composable
-public fun DefaultMessageComposerHeaderContent(
+ fun DefaultMessageComposerHeaderContent(
     messageComposerState: MessageComposerState,
     onCancelAction: () -> Unit,
 ) {
@@ -323,7 +180,7 @@ public fun DefaultMessageComposerHeaderContent(
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
-                text = stringResource(com.mathroda.messengerclone.R.string.stream_compose_message_composer_show_in_channel),
+                text = stringResource(R.string.stream_compose_message_composer_show_in_channel),
                 color = ChatTheme.colors.textLowEmphasis,
                 textAlign = TextAlign.Center,
                 style = ChatTheme.typography.body
@@ -378,10 +235,9 @@ internal fun DefaultCommandPopupContent(
  * For a full list @see [io.getstream.chat.android.client.models.ChannelCapabilities].
  */
 @Composable
-internal fun DefaultComposerIntegrations(
+internal fun DefaultComposerIntegration(
     messageInputState: MessageComposerState,
     onAttachmentsClick: () -> Unit,
-    onCommandsClick: () -> Unit,
     ownCapabilities: Set<String>,
 ) {
     val hasTextInput = messageInputState.inputValue.isNotEmpty()
@@ -390,11 +246,16 @@ internal fun DefaultComposerIntegrations(
     val hasCommandSuggestions = messageInputState.commandSuggestions.isNotEmpty()
     val hasMentionSuggestions = messageInputState.mentionSuggestions.isNotEmpty()
 
-    val isAttachmentsButtonEnabled = !hasCommandInput && !hasCommandSuggestions && !hasMentionSuggestions
+    val isAttachmentsButtonEnabled =
+        !hasCommandInput && !hasCommandSuggestions && !hasMentionSuggestions
     val isCommandsButtonEnabled = !hasTextInput && !hasAttachments
 
     val canSendMessage = ownCapabilities.contains(ChannelCapabilities.SEND_MESSAGE)
     val canSendAttachments = ownCapabilities.contains(ChannelCapabilities.UPLOAD_FILE)
+
+    AnimatedVisibility(
+        visible = !hasTextInput
+    ) {
 
     if (canSendMessage) {
         Row(
@@ -437,9 +298,11 @@ internal fun DefaultComposerIntegrations(
                 }
             }
         }
+
     } else {
         Spacer(modifier = Modifier.width(12.dp))
     }
+}
 }
 
 /**
@@ -472,21 +335,37 @@ internal fun DefaultComposerLabel(ownCapabilities: Set<String>) {
  * @param onAttachmentRemoved Handler when the user taps on the cancel/delete attachment action.
  */
 @Composable
-public fun RowScope.DefaultComposerInputContent(
+ fun RowScope.DefaultComposerInputContent(
     messageComposerState: MessageComposerState,
     onValueChange: (String) -> Unit,
     onAttachmentRemoved: (Attachment) -> Unit,
     label: @Composable (MessageComposerState) -> Unit,
 ) {
-    MessageInput(
+    CustomMessageInput(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = 6.dp, horizontal = 4.dp)
             .weight(1f),
         label = label,
         messageComposerState = messageComposerState,
         onValueChange = onValueChange,
         onAttachmentRemoved = onAttachmentRemoved,
+        innerTrailingContent = {
+            IconButton(
+                modifier = Modifier
+                    .size(18.dp),
+                content = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_emoji),
+                        contentDescription = null,
+                        tint = BottomSelected,
+                    )
+                },
+                onClick = {
+
+                }
+            )
+        }
     )
 }
 
@@ -594,16 +473,4 @@ private fun MessageInputValidationError(validationErrors: List<ValidationError>,
     }
 }
 
-/**
- * A snackbar wrapped inside of a popup allowing it be
- * displayed above the Composable it's anchored to.
- *
- * @param snackbarHostState The state of the snackbar host. Contains
- * the snackbar data necessary to display the snackbar.
- */
-@Composable
-private fun SnackbarPopup(snackbarHostState: SnackbarHostState) {
-    Popup(popupPositionProvider = AboveAnchorPopupPositionProvider()) {
-        SnackbarHost(hostState = snackbarHostState)
-    }
-}
+
