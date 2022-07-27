@@ -38,10 +38,8 @@ import io.getstream.chat.android.compose.state.messages.SelectedMessageOptionsSt
 import io.getstream.chat.android.compose.state.messages.SelectedMessageReactionsPickerState
 import io.getstream.chat.android.compose.state.messages.SelectedMessageReactionsState
 import io.getstream.chat.android.compose.ui.components.SimpleDialog
-import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.components.moderatedmessage.ModeratedMessageDialog
 import io.getstream.chat.android.compose.ui.components.reactionpicker.ReactionsPicker
-import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedReactionsMenu
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.theme.ChatTheme

@@ -1,15 +1,12 @@
 package com.mathroda.messengerclone.ui.messages.util
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.mathroda.messengerclone.R
-import com.mathroda.messengerclone.ui.messages.components.DefaultComposerLabel
 import com.mathroda.messengerclone.common.CustomInputField
+import com.mathroda.messengerclone.ui.messages.components.DefaultComposerLabel
 import com.mathroda.messengerclone.ui.theme.BubbleGray
 import io.getstream.chat.android.client.models.Attachment
 import io.getstream.chat.android.client.models.ChannelCapabilities

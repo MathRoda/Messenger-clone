@@ -18,7 +18,6 @@ import io.getstream.chat.android.common.state.MessageAction
 import io.getstream.chat.android.common.state.React
 import io.getstream.chat.android.compose.state.messageoptions.MessageOptionItemState
 import io.getstream.chat.android.compose.ui.components.SimpleMenu
-import io.getstream.chat.android.compose.ui.components.messageoptions.MessageOptions
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.util.ReactionIcon
 

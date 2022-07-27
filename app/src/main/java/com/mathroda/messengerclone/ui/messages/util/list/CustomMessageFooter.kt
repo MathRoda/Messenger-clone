@@ -1,6 +1,5 @@
 package com.mathroda.messengerclone.ui.messages.util.list
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -14,7 +13,6 @@ import com.mathroda.messengerclone.R
 import io.getstream.chat.android.compose.state.DateFormatType
 import io.getstream.chat.android.compose.state.messages.list.MessageItemState
 import io.getstream.chat.android.compose.ui.components.Timestamp
-import io.getstream.chat.android.compose.ui.components.channels.MessageReadStatusIcon
 import io.getstream.chat.android.compose.ui.components.messages.MessageThreadFooter
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 

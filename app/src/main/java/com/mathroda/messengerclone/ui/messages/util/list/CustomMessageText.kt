@@ -19,10 +19,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.utils.*
-import com.mathroda.messengerclone.utils.BuildAnnotatedMessageText
-import com.mathroda.messengerclone.utils.isEmojiOnlyWithoutBubble
-import com.mathroda.messengerclone.utils.isFewEmoji
-import com.mathroda.messengerclone.utils.isSingleEmoji
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.compose.state.messages.list.MessageItemState
 import io.getstream.chat.android.compose.ui.theme.ChatTheme

@@ -5,7 +5,6 @@ import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.compose.state.imagepreview.ImagePreviewResult
 import io.getstream.chat.android.compose.state.messages.list.GiphyAction
 import io.getstream.chat.android.compose.state.messages.list.MessageItemState
-import io.getstream.chat.android.compose.ui.messages.list.MessageItem
 
 @Composable
 fun CustomMessageContainerItem(

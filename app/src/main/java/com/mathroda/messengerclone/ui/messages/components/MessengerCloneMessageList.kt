@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.R
-import com.mathroda.messengerclone.ui.messages.util.list.CustomMessageContainerItem
 import com.mathroda.messengerclone.ui.messages.util.CustomMessageSeparator
+import com.mathroda.messengerclone.ui.messages.util.list.CustomMessageContainerItem
 import com.mathroda.messengerclone.ui.messages.util.list.DefaultMessagesHelperContent
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.compose.state.imagepreview.ImagePreviewResult
@@ -20,7 +20,8 @@ import io.getstream.chat.android.compose.state.imagepreview.ImagePreviewResultTy
 import io.getstream.chat.android.compose.state.messages.list.GiphyAction
 import io.getstream.chat.android.compose.state.messages.list.MessageListItemState
 import io.getstream.chat.android.compose.ui.components.LoadingIndicator
-import io.getstream.chat.android.compose.ui.messages.list.*
+import io.getstream.chat.android.compose.ui.messages.list.MessageContainer
+import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.util.rememberMessageListState
 import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel

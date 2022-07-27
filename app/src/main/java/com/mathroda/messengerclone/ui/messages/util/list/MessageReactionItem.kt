@@ -1,15 +1,15 @@
 package com.mathroda.messengerclone.ui.messages.util.list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.getstream.chat.android.compose.state.reactionoptions.ReactionOptionItemState
-import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
 @Composable
 fun MessageReactionItem(

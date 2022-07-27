@@ -11,26 +11,25 @@ import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.MessengerApp
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
-import com.mathroda.messengerclone.ui.channels.components.*
-import com.mathroda.messengerclone.ui.login.UserLoginActivity
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneBottomBar
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneChannelList
+import com.mathroda.messengerclone.ui.channels.components.MessengerCloneListHeader
 import com.mathroda.messengerclone.ui.messages.MessagesActivity
 import com.mathroda.messengerclone.ui.profile.ProfileActivity
 import com.mathroda.messengerclone.ui.search.SearchActivity
@@ -39,12 +38,10 @@ import io.getstream.chat.android.client.api.models.querysort.QuerySortByField
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.compose.state.channels.list.*
 import io.getstream.chat.android.compose.ui.channels.info.SelectedChannelMenu
-import io.getstream.chat.android.compose.ui.components.SearchInput
 import io.getstream.chat.android.compose.ui.components.SimpleDialog
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.compose.viewmodel.channels.ChannelViewModelFactory
-import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi

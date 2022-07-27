@@ -14,21 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.getstream.sdk.chat.model.ModelType
 import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.theme.BottomSelected
 import com.mathroda.messengerclone.utils.MessengerHelper
 import com.mathroda.messengerclone.utils.hasLink
-import com.mathroda.messengerclone.utils.isGiphy
 import io.getstream.chat.android.client.models.ChannelCapabilities
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.client.utils.SyncStatus
 import io.getstream.chat.android.common.state.*
 import io.getstream.chat.android.compose.state.messageoptions.MessageOptionItemState
-import io.getstream.chat.android.compose.ui.components.messageoptions.MessageOptionItem
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
-import io.getstream.chat.android.core.internal.InternalStreamChatApi
 
 @Composable
 fun CustomMessageOptions(
