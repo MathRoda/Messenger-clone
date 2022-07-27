@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,7 +18,8 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.getstream.sdk.chat.utils.extensions.isMine
+import androidx.compose.ui.unit.sp
+import com.mathroda.messengerclone.utils.*
 import com.mathroda.messengerclone.utils.BuildAnnotatedMessageText
 import com.mathroda.messengerclone.utils.isEmojiOnlyWithoutBubble
 import com.mathroda.messengerclone.utils.isFewEmoji
@@ -44,10 +44,13 @@ fun CustomMessageText(
     val style = when {
         message.isSingleEmoji() -> ChatTheme.typography.singleEmoji
         message.isFewEmoji() -> ChatTheme.typography.emojiOnly
-        else -> ChatTheme.typography.bodyBold
+        message.isMyMessage() -> ChatTheme.typography.body.copy(
+            color = Color.White
+        )
+        else -> ChatTheme.typography.body
     }
 
-    if (annotations.isNotEmpty()) {
+    if (message.text.isNotEmpty()) {
         ClickableText(
             modifier = modifier
                 .padding(
@@ -56,10 +59,9 @@ fun CustomMessageText(
                     top = 8.dp,
                     bottom = 8.dp
                 ),
-            text = styledText,
+            text = message.text,
             style = style,
             onLongPress = { onLongItemClick(message) },
-            color = if (messageItemState.isMine) Color.White else Color.Black
         ) { position ->
             val targetUrl = annotations.firstOrNull {
                 position in it.start..it.end
@@ -92,8 +94,7 @@ fun CustomMessageText(
 
 @Composable
 private fun ClickableText(
-    text: AnnotatedString,
-    color: Color,
+    text: String,
     modifier: Modifier = Modifier,
     style: TextStyle = TextStyle.Default,
     softWrap: Boolean = true,
@@ -115,12 +116,10 @@ private fun ClickableText(
         )
     }
 
-
     Text(
         text = text,
         modifier = modifier.then(pressIndicator),
         style = style,
-        color = color,
         softWrap = softWrap,
         overflow = overflow,
         maxLines = maxLines,

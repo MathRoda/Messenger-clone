@@ -6,6 +6,7 @@ import android.content.Context
 import com.getstream.sdk.chat.model.ModelType
 import com.getstream.sdk.chat.utils.EmojiUtil
 import com.mathroda.messengerclone.R
+import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.extensions.uploadId
 import io.getstream.chat.android.client.models.Attachment
 import io.getstream.chat.android.client.models.Message
@@ -114,3 +115,5 @@ internal fun Attachment.isUploading(): Boolean {
  * @return If the current message failed to send.
  */
 internal fun MessageItemState.isFailed(): Boolean = isMine && message.syncStatus == SyncStatus.FAILED_PERMANENTLY
+
+fun Message.isMyMessage(): Boolean = ChatClient.instance().getCurrentUser()?.id == user.id

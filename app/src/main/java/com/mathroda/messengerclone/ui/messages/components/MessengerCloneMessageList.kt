@@ -112,6 +112,7 @@ internal fun DefaultMessageContainer(
                 messageItem = it,
                 onLongItemClick = onLongItemClick,
                 onThreadClick = onThreadClick,
+                onReactionsClick = onReactionsClick,
                 onGiphyActionClick = onGiphyActionClick,
                 onQuotedMessageClick = onQuotedMessageClick,
                 onImagePreviewResult = onImagePreviewResult
