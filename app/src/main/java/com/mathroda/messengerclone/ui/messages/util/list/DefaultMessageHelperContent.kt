@@ -1,4 +1,4 @@
-package com.mathroda.messengerclone.ui.messages.util
+package com.mathroda.messengerclone.ui.messages.util.list
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable

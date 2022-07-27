@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.R
+import com.mathroda.messengerclone.ui.messages.util.list.CustomMessageText
 import com.mathroda.messengerclone.utils.isDeleted
 import com.mathroda.messengerclone.utils.isGiphyEphemeral
 import io.getstream.chat.android.client.models.Message

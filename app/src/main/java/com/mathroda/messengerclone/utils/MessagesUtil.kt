@@ -117,3 +117,5 @@ internal fun Attachment.isUploading(): Boolean {
 internal fun MessageItemState.isFailed(): Boolean = isMine && message.syncStatus == SyncStatus.FAILED_PERMANENTLY
 
 fun Message.isMyMessage(): Boolean = ChatClient.instance().getCurrentUser()?.id == user.id
+
+fun Attachment.hasLink(): Boolean = titleLink != null || ogUrl != null

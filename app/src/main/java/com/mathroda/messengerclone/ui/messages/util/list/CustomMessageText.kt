@@ -1,4 +1,4 @@
-package com.mathroda.messengerclone.ui.messages.util
+package com.mathroda.messengerclone.ui.messages.util.list
 
 import android.content.Intent
 import android.net.Uri
@@ -18,7 +18,6 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.mathroda.messengerclone.utils.*
 import com.mathroda.messengerclone.utils.BuildAnnotatedMessageText
 import com.mathroda.messengerclone.utils.isEmojiOnlyWithoutBubble

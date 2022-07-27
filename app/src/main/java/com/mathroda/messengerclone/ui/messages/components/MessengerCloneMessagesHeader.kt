@@ -160,7 +160,7 @@ fun DefaultHeaderLeadingContent(
     ) {
         Text(
             text = title,
-            style = ChatTheme.typography.body,
+            style = ChatTheme.typography.bodyBold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             color = ChatTheme.colors.textHighEmphasis,

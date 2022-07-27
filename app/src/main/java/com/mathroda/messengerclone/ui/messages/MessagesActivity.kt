@@ -12,18 +12,19 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.ui.BaseConnectedActivity
 import com.mathroda.messengerclone.ui.messages.components.MessengerCloneMessageList
 import com.mathroda.messengerclone.ui.messages.components.MessengerCloneMessagesComposer
 import com.mathroda.messengerclone.ui.messages.components.MessengerCloneMessagesHeader
+import com.mathroda.messengerclone.ui.messages.components.MessengerCloneSelectedMenu
+import com.mathroda.messengerclone.ui.messages.util.menu.CustomMessageOptionsState
+import com.mathroda.messengerclone.utils.MessengerCloneReactionFactory
 import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.common.model.DeleteMessage
@@ -42,18 +43,13 @@ import io.getstream.chat.android.compose.ui.components.moderatedmessage.Moderate
 import io.getstream.chat.android.compose.ui.components.reactionpicker.ReactionsPicker
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedReactionsMenu
-import io.getstream.chat.android.compose.ui.messages.MessagesScreen
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
-import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
-import io.getstream.chat.android.compose.ui.messages.header.MessageListHeader
-import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.util.rememberMessageListState
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(
     ExperimentalAnimationApi::class,
@@ -79,7 +75,7 @@ class MessagesActivity : BaseConnectedActivity() {
         val channelId = intent.getStringExtra(KEY_CHANNEL_ID) ?: return
 
         setContent {
-           ChatTheme {
+           ChatTheme(reactionIconFactory = MessengerCloneReactionFactory()) {
                MessengerCloneMessagesScreen(
                    channelId = channelId,
                    messageLimit = 30,
@@ -196,7 +192,7 @@ class MessagesActivity : BaseConnectedActivity() {
             val selectedMessage = selectedMessageState?.message ?: Message()
             val ownCapabilities = selectedMessageState?.ownCapabilities ?: setOf()
 
-            val newMessageOptions = defaultMessageOptionsState(
+            val newMessageOptions = CustomMessageOptionsState(
                 selectedMessage = selectedMessage,
                 currentUser = user,
                 isInThread = listViewModel.isInThread,
@@ -214,7 +210,7 @@ class MessagesActivity : BaseConnectedActivity() {
                 enter = fadeIn(),
                 exit = fadeOut(animationSpec = tween(durationMillis = AnimationConstants.DefaultDurationMillis / 2))
             ) {
-                SelectedMessageMenu(
+                MessengerCloneSelectedMenu(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .animateEnterExit(
@@ -234,10 +230,7 @@ class MessagesActivity : BaseConnectedActivity() {
                         composerViewModel.performMessageAction(action)
                         listViewModel.performMessageAction(action)
                     },
-                    onShowMoreReactionsSelected = {
-                        listViewModel.selectExtendedReactions(selectedMessage)
-                    },
-                    onDismiss = { listViewModel.removeOverlay() }
+                    onDismiss = { listViewModel.removeOverlay() },
                 )
             }
 

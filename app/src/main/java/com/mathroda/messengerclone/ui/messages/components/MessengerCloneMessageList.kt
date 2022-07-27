@@ -11,9 +11,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mathroda.messengerclone.R
-import com.mathroda.messengerclone.ui.messages.util.CustomMessageItem
+import com.mathroda.messengerclone.ui.messages.util.list.CustomMessageContainerItem
 import com.mathroda.messengerclone.ui.messages.util.CustomMessageSeparator
-import com.mathroda.messengerclone.ui.messages.util.DefaultMessagesHelperContent
+import com.mathroda.messengerclone.ui.messages.util.list.DefaultMessagesHelperContent
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.compose.state.imagepreview.ImagePreviewResult
 import io.getstream.chat.android.compose.state.imagepreview.ImagePreviewResultType
@@ -108,7 +108,7 @@ internal fun DefaultMessageContainer(
             CustomMessageSeparator(dateSeparator = it)
         },
         messageItemContent = {
-            CustomMessageItem(
+            CustomMessageContainerItem(
                 messageItem = it,
                 onLongItemClick = onLongItemClick,
                 onThreadClick = onThreadClick,
