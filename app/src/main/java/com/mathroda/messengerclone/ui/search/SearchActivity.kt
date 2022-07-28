@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -21,7 +20,6 @@ import com.mathroda.messengerclone.MessengerApp
 import com.mathroda.messengerclone.ui.channels.ChannelsActivity
 import com.mathroda.messengerclone.ui.channels.components.MessengerCloneChannelList
 import com.mathroda.messengerclone.ui.messages.MessagesActivity
-import com.mathroda.messengerclone.ui.profile.ProfileActivity
 import com.mathroda.messengerclone.ui.search.components.MessengerCloneSearchInput
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.querysort.QuerySortByField

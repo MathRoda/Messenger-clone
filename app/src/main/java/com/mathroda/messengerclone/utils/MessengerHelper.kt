@@ -49,4 +49,6 @@ object MessengerHelper {
         MessengerApp.credentialsRepository.clearCredentials()
         ChatClient.instance().disconnect()
     }
+
+    const val attach_giphy: String = "giphy"
 }

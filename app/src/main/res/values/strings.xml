@@ -72,15 +72,15 @@
     <!-- Selected Message Menu -->
     <string name="stream_compose_resend_message">Resend</string>
     <string name="stream_compose_reply">Reply</string>
-    <string name="stream_compose_thread_reply">Thread reply</string>
-    <string name="stream_compose_copy_message">Copy Message</string>
+    <string name="thread_reply">Thread</string>
+    <string name="copy_message">Copy</string>
     <string name="stream_compose_edit_message">Edit Message</string>
-    <string name="stream_compose_delete_message">Delete Message</string>
+    <string name="delete_message">Delete</string>
     <string name="stream_compose_mute_user">Mute User</string>
     <string name="stream_compose_unmute_user">Unmute User</string>
     <string name="stream_compose_unpin_message">Unpin from this Chat</string>
     <string name="stream_compose_pin_message">Pin to this Chat</string>
-    <string name="stream_compose_flag_message">Flag Message</string>
+    <string name="flag_message">Flag</string>
     <plurals name="stream_compose_message_reactions">
         <item quantity="one">%d Message Reaction</item>
         <item quantity="other">%d Message Reactions</item>
@@ -105,7 +105,7 @@
     <string name="stream_compose_message_composer_show_in_channel">Also send as direct message</string>
     <string name="stream_compose_message_composer_file_not_supported">File type is not supported</string>
 
-    <string name="stream_compose_message_label">Send a message</string>
+    <string name="stream_compose_message_label">Aa</string>
     <string name="stream_compose_cannot_send_messages_label">You can\'t send messages in this channel</string>
     <string name="stream_compose_send_message">Send</string>
     <string name="stream_compose_attachments">Attachments</string>

@@ -1,24 +1,20 @@
-package com.mathroda.messengerclone.ui.search.util
+package com.mathroda.messengerclone.common
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
-import com.mathroda.messengerclone.R
 import com.mathroda.messengerclone.ui.theme.BubbleGray
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 
@@ -29,7 +25,9 @@ fun CustomInputField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
+    color: Color = ChatTheme.colors.barsBackground,
     border: BorderStroke = BorderStroke(0.dp, BubbleGray),
+    innerPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit,
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -51,8 +49,8 @@ fun CustomInputField(
         modifier = modifier
             .border(border = border, shape = ChatTheme.shapes.inputField)
             .clip(ChatTheme.shapes.inputField)
-            .background(ChatTheme.colors.barsBackground)
-            .height(56.dp),
+            .background(color)
+            .padding(innerPadding),
         value = textFieldValue,
         onValueChange = {
             textFieldValueState = it
