@@ -62,6 +62,10 @@ Messenger Android clone was built with __[Stream Chat SDK for Compose](https://g
 
 ![](MessengerClone/madscore.png)
 
+## Copyrights & Credits
+
+All copyrights of the resources, logo, branding, content, concepts, and phrases that are used in this open-source project belong to [Meta(Facebbok)](https://facebook.com/).
+
 ---
 
 ## If you like my projects you can buy me a cup of coffee 💙
