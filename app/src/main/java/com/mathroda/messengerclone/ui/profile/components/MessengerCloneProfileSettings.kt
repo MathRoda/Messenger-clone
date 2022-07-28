@@ -42,7 +42,7 @@ fun MessengerCloneProfileSettings(
         item {
             AccountItems(
                 title = "Switch account",
-                color = CustomBurble,
+                color = CustomPurple,
                 painter = painterResource(id = R.drawable.ic_switch_account),
                 onClick = onSwitchAccount
             )
