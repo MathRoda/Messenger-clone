@@ -82,9 +82,6 @@ class ChannelsActivity: BaseConnectedActivity() {
     fun MessengerCloneChannelsScreen(
         title: String = "Chats",
         isShowingHeader: Boolean = true,
-        channelLimit: Int = 30,
-        memberLimit: Int = 1,
-        messageLimit: Int = 30,
         onHeaderActionClick: () -> Unit = {},
         onHeaderAvatarClick: () -> Unit = {},
         onItemClick: (Channel) -> Unit = {},
