@@ -15,7 +15,7 @@ I wrote a article contains more details about the project , read it here : https
 
 ***You can Install and test latest Messenger Clone app from below 👇***
 
-[![MessengerClone](https://img.shields.io/badge/MessengerClone✅-APK-red.svg?style=for-the-badge&logo=android)](https://github.com/MathRoda/Dash-Coin-App/releases/download/v1.0.0/Dash.Coin.apk)
+[![MessengerClone](https://img.shields.io/badge/MessengerClone✅-APK-red.svg?style=for-the-badge&logo=android)](https://github.com/MathRoda/Messenger-clone/releases/download/1.0.0/Mesenger.Clone.apk)
 
 <a href="https://getstream.io/chat/sdk/compose?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_May2022_SlackAndroidClone&utm_term=DevRelOss">
 <img src="https://user-images.githubusercontent.com/24237865/138428440-b92e5fb7-89f8-41aa-96b1-71a5486c5849.png" align="right" width="12%"/>
